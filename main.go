@@ -36,6 +36,24 @@ func main() {
 		},
 	})
 
+	friendInputType := gq.NewInputObject(gq.InputObjectConfig{
+		Name: "UserInput",
+		Fields: gq.InputObjectConfigFieldMap{
+			"first_name": &gq.InputObjectFieldConfig{
+				Type: gq.NewNonNull(gq.String),
+			},
+			"last_name": &gq.InputObjectFieldConfig{
+				Type: gq.NewNonNull(gq.String),
+			},
+			"gender": &gq.InputObjectFieldConfig{
+				Type: gq.NewNonNull(gq.String),
+			},
+			"language": &gq.InputObjectFieldConfig{
+				Type: gq.NewNonNull(gq.String),
+			},
+		},
+	})
+
 	friendType := gq.NewObject(gq.ObjectConfig{
 		Name: "friend",
 		Fields: gq.Fields{
@@ -83,9 +101,24 @@ func main() {
 		},
 	})
 
+	rootMutation := gq.NewObject(gq.ObjectConfig{
+		Name: "Mutation",
+		Fields: gq.Fields{
+			"createFriend": &gq.Field{
+				Type: friendType,
+				Args: gq.FieldConfigArgument{
+					"input": &gq.ArgumentConfig{
+						Type: gq.NewNonNull(friendInputType),
+					},
+				},
+				Resolve: createFriend,
+			},
+		},
+	})
+
 	schema, _ := gq.NewSchema(gq.SchemaConfig{
 		Query:    rootQuery,
-		Mutation: nil,
+		Mutation: rootMutation,
 	})
 
 	http.HandleFunc("/graphql", func(w http.ResponseWriter, r *http.Request) {

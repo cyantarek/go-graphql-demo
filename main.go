@@ -9,14 +9,75 @@ import (
 	gq "github.com/graphql-go/graphql"
 )
 
+type Friend struct {
+	ID        int     `json: "id"`
+	FirstName string  `json:"first_name"`
+	LastName  string  `json:"last_name"`
+	Gender    string  `json:"gender"`
+	Language  string  `json:"language"`
+	Emails    []Email `json:"emails"`
+}
+
+type Email struct {
+	ID      int    `json:"id,omitempty"`
+	Address string `json:"address,omitempty"`
+}
+
 func main() {
+	emailType := gq.NewObject(gq.ObjectConfig{
+		Name: "email",
+		Fields: gq.Fields{
+			"id": &gq.Field{
+				Type: gq.ID,
+			},
+			"address": &gq.Field{
+				Type: gq.String,
+			},
+		},
+	})
+
+	friendType := gq.NewObject(gq.ObjectConfig{
+		Name: "friend",
+		Fields: gq.Fields{
+			"id": &gq.Field{
+				Type: gq.ID,
+			},
+			"first_name": &gq.Field{
+				Type: gq.String,
+			},
+			"last_name": &gq.Field{
+				Type: gq.String,
+			},
+			"gender": &gq.Field{
+				Type: gq.String,
+			},
+			"language": &gq.Field{
+				Type: gq.String,
+			},
+			"emails": &gq.Field{
+				Type: gq.NewList(emailType),
+			},
+		},
+	})
+
 	rootQuery := gq.NewObject(gq.ObjectConfig{
 		Name: "Query",
 		Fields: gq.Fields{
 			"hello": &gq.Field{
-				Type: gq.String,
-				Resolve: func(p gq.ResolveParams) (interface{}, error) {
-					return "Hi, I'm Manny", nil
+				Type:    gq.String,
+				Resolve: HelloResolver,
+			},
+			"friends": &gq.Field{
+				Type:    gq.NewList(friendType),
+				Resolve: FriendsResolver,
+			},
+			"friend": &gq.Field{
+				Type:    friendType,
+				Resolve: FriendResolver,
+				Args: gq.FieldConfigArgument{
+					"id": &gq.ArgumentConfig{
+						Type: gq.NewNonNull(gq.Int),
+					},
 				},
 			},
 		},

@@ -5,10 +5,10 @@ import (
 )
 
 var friends = []Friend{
-	Friend{1, "aaa", "aaa", "aaa", "aaa", []Email{Email{ID: 1, Address: "Hisd"}}},
-	Friend{2, "bbb", "bbb", "bbb", "bbb", []Email{Email{ID: 2, Address: "Hisd"}}},
-	Friend{3, "ccc", "ccc", "ccc", "ccc", []Email{Email{ID: 5, Address: "Hisd"}}},
-	Friend{4, "ddd", "ddd", "ddd", "ddd", []Email{Email{ID: 10, Address: "Hisss"},
+	Friend{1, "aaa", "aaa", "MALE", "aaa", []Email{Email{ID: 1, Address: "Hisd"}}},
+	Friend{2, "bbb", "bbb", "MALE", "bbb", []Email{Email{ID: 2, Address: "Hisd"}}},
+	Friend{3, "ccc", "ccc", "FEMALE", "ccc", []Email{Email{ID: 5, Address: "Hisd"}}},
+	Friend{4, "ddd", "ddd", "OTHER", "ddd", []Email{Email{ID: 10, Address: "Hisss"},
 		Email{ID: 12, Address: "Hi2"}}},
 }
 

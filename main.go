@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	"app"
+	"gq-test/app"
 
 	"github.com/graphql-go/handler"
 
@@ -15,20 +15,10 @@ import (
 func main() {
 
 	schema, _ := gq.NewSchema(gq.SchemaConfig{
-		Query:    app.rootQuery,
-		Mutation: app.rootMutation,
+		Query:    app.RootQuery,
+		Mutation: app.RootMutation,
 	})
-
-	// http.HandleFunc("/graphql", func(w http.ResponseWriter, r *http.Request) {
-	// 	result := gq.Do(gq.Params{
-	// 		Schema:        schema,
-	// 		RequestString: r.URL.Query().Get("query"),
-	// 	})
-
-	// 	w.Header().Set("Content-Type", "application/json")
-	// 	json.NewEncoder(w).Encode(result)
-	// })
-
+	
 	conf := handler.NewConfig()
 	conf.Schema = &schema
 	h := handler.New(conf)

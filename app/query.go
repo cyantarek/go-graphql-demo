@@ -2,7 +2,7 @@ package app
 
 import gq "github.com/graphql-go/graphql"
 
-var rootQuery = gq.NewObject(gq.ObjectConfig{
+var RootQuery = gq.NewObject(gq.ObjectConfig{
 	Name: "Query",
 	Fields: gq.Fields{
 		"hello": &gq.Field{
